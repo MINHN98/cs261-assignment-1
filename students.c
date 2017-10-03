@@ -53,7 +53,6 @@ void init_student(struct student* student, char* name, int id, float gpa) {
  *     struct itself should not be freed.
  */
 void free_student(struct student* student) {
-  printf("freeing student");
   free(student->name);
 }
 
@@ -119,7 +118,6 @@ struct student* create_student_array(int num_students, char** names, int* ids,
     float* gpas) {
   struct student *students = malloc(num_students * sizeof(struct student));
   for (int i = 0; i < num_students; i++){
-    //students[i] = malloc(sizeof(struct student));
     int len = strlen(names[i]);
     char * copy = malloc((len+1)*sizeof(char));
     strcpy(copy, names[i]);
