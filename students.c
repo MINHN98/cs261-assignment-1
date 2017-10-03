@@ -3,11 +3,13 @@
  * the assignment.  Make sure to add your name and @oregonstate.edu email
  * address below:
  *
- * Name:
- * Email:
+ * Name: Minh Nguyen
+ * Email: nguyemin@oregonstate.edu
  */
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "students.h"
 
@@ -32,7 +34,12 @@
  *   gpa - the student's GPA
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
-
+  int len = strlen(name);
+  char * copy = malloc((len+1)*sizeof(char));
+  strcpy(copy, name);
+  student->name = copy;
+  student->id = id;
+  student->gpa = gpa;
 }
 
 
@@ -46,7 +53,8 @@ void init_student(struct student* student, char* name, int id, float gpa) {
  *     struct itself should not be freed.
  */
 void free_student(struct student* student) {
-
+  printf("freeing student");
+  free(student->name);
 }
 
 
@@ -69,7 +77,15 @@ void free_student(struct student* student) {
  *   using a combination of free_student() and free().
  */
 struct student* deep_copy_student(struct student* student) {
-  return NULL;
+  // maybe free memory??
+  struct student *s = malloc(sizeof(struct student));
+  int len = strlen(student->name);
+  char * copy = malloc((len+1)*sizeof(char));
+  strcpy(copy, student->name);
+  s->name = copy;
+  s->id = student->id;
+  s->gpa = student->gpa;
+  return s;
 }
 
 
@@ -101,8 +117,17 @@ struct student* deep_copy_student(struct student* student) {
  */
 struct student* create_student_array(int num_students, char** names, int* ids,
     float* gpas) {
-
-  return NULL;
+  struct student *students = malloc(num_students * sizeof(struct student));
+  for (int i = 0; i < num_students; i++){
+    //students[i] = malloc(sizeof(struct student));
+    int len = strlen(names[i]);
+    char * copy = malloc((len+1)*sizeof(char));
+    strcpy(copy, names[i]);
+    students[i].name = copy;
+    students[i].id = ids[i];
+    students[i].gpa = gpas[i];
+  }
+  return students;
 }
 
 
@@ -118,7 +143,10 @@ struct student* create_student_array(int num_students, char** names, int* ids,
  *   num_students - the number of students in the array
  */
 void destroy_student_array(struct student* students, int num_students) {
-
+  for (int i = 0; i < num_students; i++){
+    free(students[i].name);
+  }
+  free(students);
 }
 
 
@@ -131,7 +159,9 @@ void destroy_student_array(struct student* students, int num_students) {
  *   num_students - the number of students in the array
  */
 void print_students(struct student* students, int num_students) {
-
+  for (int i = 0; i < num_students; i++){
+    printf("Name: %s, \t ID: %d, \t, GPA: %f \n", students[i].name, students[i].id, students[i].gpa);
+  }
 }
 
 
@@ -151,7 +181,13 @@ void print_students(struct student* students, int num_students) {
  *   should not make a copy of the student being returned.
  */
 struct student* find_max_gpa(struct student* students, int num_students) {
-  return NULL;
+  int max_index = 0;
+  for (int i = 0; i < num_students; i++){
+    if (students[i].gpa > students[max_index].gpa){
+      max_index = i;
+    }
+  }
+  return &students[max_index];
 }
 
 
@@ -171,7 +207,13 @@ struct student* find_max_gpa(struct student* students, int num_students) {
  *   should not make a copy of the student being returned.
  */
 struct student* find_min_gpa(struct student* students, int num_students) {
-  return NULL;
+  int min_index = 0;
+  for (int i = 0; i < num_students; i++){
+    if (students[i].gpa < students[min_index].gpa){
+      min_index = i;
+    }
+  }
+  return &students[min_index];
 }
 
 
@@ -189,5 +231,16 @@ struct student* find_min_gpa(struct student* students, int num_students) {
  *   num_students - the number of students in the array
  */
 void sort_by_gpa(struct student* students, int num_students) {
-
+  struct student temp;
+  for (int i=0; i < num_students; ++i){
+        for(int j=0; j < (num_students-i-1); ++j){
+            /* if a gpa is smaller than that of the one after it...*/
+            if(students[j].gpa < students[j+1].gpa){
+                /* switch its places */
+                temp = students[j];
+                students[j] = students[j+1];
+                students[j+1] = temp;
+            }
+        }
+    }
 }

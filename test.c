@@ -79,6 +79,7 @@ int main(int argc, char** argv) {
   copy = deep_copy_student(&student);
   printf("\n== Here's that student (left) and its deep copy (right):\n");
   if (copy) {
+    
     printf("name (value):   %s\t%s\n", student.name, copy->name);
     printf("name (pointer): %p\t%p\n", student.name, copy->name);
     printf("id:             %d\t%d\n", student.id, copy->id);
