@@ -35,7 +35,7 @@
  */
 void init_student(struct student* student, char* name, int id, float gpa) {
   int len = strlen(name);
-  char * copy = malloc((len+1)*sizeof(char));
+  char* copy = malloc((len+1)*sizeof(char));
   strcpy(copy, name);
   student->name = copy;
   student->id = id;
@@ -142,7 +142,8 @@ struct student* create_student_array(int num_students, char** names, int* ids,
  */
 void destroy_student_array(struct student* students, int num_students) {
   for (int i = 0; i < num_students; i++){
-    free(students[i].name);
+    free_student(&students[i]);
+    //free(students[i].name);
   }
   free(students);
 }
